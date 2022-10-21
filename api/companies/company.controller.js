@@ -28,7 +28,7 @@ async function createCompanyHandler(req, res) {
     const newCompany = await createCompany(companyData);
     return res.status(200).json(newCompany);
   } catch (error) {
-    return res.status(400).json({ ERROR: error });
+    return res.status(400).json({ ERROR: error.message });
   }
 }
 
