@@ -3,9 +3,10 @@ const sequelize = require('../../config/db');
 
 const Company = sequelize.define('companies', {
   id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: false,
     allowNull: false,
+    autoIncrement: true,
     unique: true,
   },
   NIT: {
@@ -18,7 +19,7 @@ const Company = sequelize.define('companies', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  number: {
+  phoneNumber: {
     type: DataTypes.STRING,
     allowNull: false,
   },
