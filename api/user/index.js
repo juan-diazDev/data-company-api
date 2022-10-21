@@ -10,7 +10,7 @@ const {
 const router = Router();
 
 router.get('/', getAllUsersHandler);
-router.post('/signup', createUserHandler);
+router.post('/', createUserHandler);
 router.get('/', getSingleUserHandler); // Needs to be fixed
 router.post('/login', login);
 

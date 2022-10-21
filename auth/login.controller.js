@@ -1,31 +1,25 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { getSingleUser } = require('../api/user/user.service');
+const { signToken } = require('./auth.service');
 
-const User = require('../api/user/user.model');
+async function loginUserHandler(req, res) {
+  const { email, password } = req.body;
 
-const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-
-    if (user) {
-      const isSame = await bcrypt.compare(password, user.password);
-
-      if (isSame) {
-        const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-          expiresIn: 1 * 24 * 60 * 60 * 1000,
-        });
-
-        res.cookie('jwt', token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
-        return res.status(201).send(user);
-      }
-      return res.status(401).send('Authentication failed');
+    const user = await getSingleUser({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'Email or password incorrect' });
     }
-    return res.status(401).send('Authentication failed');
-  } catch (error) {
-    return res.status(400).json({ ERROR: error.message });
-  }
-};
+    const isMatch = await bcrypt.compare(password, user.password);
 
-module.exports = login;
+    if (!isMatch) {
+      return res.status(404).json({ message: 'Email or password incorrect' });
+    }
+    const token = await signToken({ email: user.email });
+    return res.status(200).json({ token, profile: user.profile });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+}
+
+module.exports = loginUserHandler;

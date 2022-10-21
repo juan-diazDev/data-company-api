@@ -1,13 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-async function signToken() {
+async function signToken(payload) {
   const token = await jwt.sign(
-    {
-      id: newUser.id,
-    },
+    payload,
     process.env.SECRET_KEY,
-    {
-      expiresIn: 1 * 24 * 60 * 60 * 1000,
-    },
+    { expiresIn: 1 * 24 * 60 * 60 * 1000 },
   );
+
+  return token;
 }
+
+module.exports = {
+  signToken,
+};

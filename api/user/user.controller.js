@@ -50,7 +50,7 @@ async function createUserHandler(req, res) {
 
     return res.status(200).json(newUser);
   } catch (error) {
-    return res.status(400).json({ ERROR: error.message });
+    return res.status(400).json({ ERROR: error });
   }
 }
 
