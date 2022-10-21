@@ -4,12 +4,14 @@ const {
   createUserHandler,
   getAllUsersHandler,
   getSingleUserHandler,
+  login,
 } = require('./user.controller');
 
 const router = Router();
 
 router.get('/', getAllUsersHandler);
-router.post('/', createUserHandler);
+router.post('/signup', createUserHandler);
 router.get('/', getSingleUserHandler); // Needs to be fixed
+router.post('/login', login);
 
 module.exports = router;
