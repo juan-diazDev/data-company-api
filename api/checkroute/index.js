@@ -4,9 +4,9 @@ const router = Router();
 
 router.get('/', (_, res) => {
   try {
-    res.json({ message: 'This server is running!' });
+    return res.json({ message: 'This server is running!' });
   } catch (error) {
-    res.status(500).json(error.message);
+    return res.status(500).json(error.message);
   }
 });
 
